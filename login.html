@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lumière AI — Acceso</title>
+<title>Crabify — Acceso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -965,6 +965,87 @@ nav {
 }
 .sheet-status.err { color: #C05050; }
 
+/* ── PAYMENT SCREEN ── */
+.pm-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto 28px;
+}
+.pm-card {
+  background: var(--white);
+  border: 2px solid rgba(44,38,32,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pm-card.open { border-color: var(--dusty-rose); box-shadow: var(--shadow-card); }
+.pm-card-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  cursor: pointer;
+}
+.pm-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.pm-icon-paypal { background: rgba(216,208,232,0.5); }
+.pm-icon-bank { background: rgba(200,213,192,0.5); }
+.pm-icon-sinpe { background: rgba(237,217,163,0.5); }
+.pm-info { flex: 1; }
+.pm-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pm-tag {
+  font-size: 10px;
+  background: var(--parchment);
+  color: var(--ink-soft);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.pm-desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; font-weight: 300; }
+.pm-chevron { color: var(--ink-muted); font-size: 12px; transition: transform 0.2s; flex-shrink: 0; }
+.pm-card.open .pm-chevron { transform: rotate(180deg); }
+.pm-body { display: none; padding: 0 24px 24px; }
+.pm-card.open .pm-body { display: block; }
+.pm-note { font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; font-weight: 300; line-height: 1.6; }
+.pm-warning { font-size: 12px; color: #C05050; margin-bottom: 10px; line-height: 1.5; }
+.pm-bank-details {
+  background: var(--parchment);
+  border-radius: 14px;
+  padding: 6px 18px;
+  margin-bottom: 16px;
+}
+.pm-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+  border-bottom: 1px solid rgba(44,38,32,0.06);
+}
+.pm-detail-row:last-child { border-bottom: none; }
+.pm-detail-row strong { color: var(--ink); font-weight: 500; font-size: 13px; }
+#paypal-button-container { margin-bottom: 4px; }
+.sr-badge.pending { background: rgba(237,217,163,0.6); color: var(--champagne-deep); }
+
 /* Responsive */
 @media (max-width: 900px) {
   nav { padding: 0 24px; }
@@ -986,8 +1067,8 @@ nav {
 
 <nav>
   <a href="#" class="nav-logo">
-    <div class="logo-mark">✦</div>
-    Lumière AI
+    <div class="logo-mark">🦀</div>
+    Crabify
   </a>
   <a href="index.html" class="nav-back">← Volver al inicio</a>
 </nav>
@@ -1012,13 +1093,18 @@ nav {
         <div class="step-connector"></div>
         <div class="step-pill" id="sp3">
           <span class="sp-num">3</span>
+          <span>Pago</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-pill" id="sp4">
+          <span class="sp-num">4</span>
           <span>¡Todo listo!</span>
         </div>
       </div>
 
       <div class="step-indicator">
         <span class="step-dot"></span>
-        Paso 1 de 2
+        Paso 1 de 3
       </div>
       <h1 class="ps-title">Elige el plan que<br>lleva tu agencia <em>al siguiente nivel</em></h1>
       <p class="ps-sub">14 días gratis en todos los planes · Sin tarjeta de crédito · Cancela cuando quieras</p>
@@ -1133,6 +1219,11 @@ nav {
       <div class="step-connector"></div>
       <div class="step-pill" id="sp3b">
         <span class="sp-num">3</span>
+        <span>Pago</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-pill" id="sp4b">
+        <span class="sp-num">4</span>
         <span>¡Todo listo!</span>
       </div>
     </div>
@@ -1145,7 +1236,7 @@ nav {
           Registro seguro
         </div>
         <h1 class="auth-title">Comienza tu<br>prueba <em>gratuita</em></h1>
-        <p class="auth-subtitle">14 días sin compromiso para descubrir cómo Lumière transforma la inteligencia de tu agencia.</p>
+        <p class="auth-subtitle">14 días sin compromiso para descubrir cómo Crabify transforma la inteligencia de tu agencia.</p>
 
         <div class="selected-plan-chip" onclick="goBack('screen-plans')">
           <div class="chip-icon">✦</div>
@@ -1233,7 +1324,7 @@ nav {
           <div class="form-check">
             <input type="checkbox" class="form-checkbox" id="chk-terms">
             <label class="check-label" for="chk-terms">
-              Acepto los <a href="#">Términos de servicio</a> y la <a href="#">Política de privacidad</a> de Lumière AI.
+              Acepto los <a href="#">Términos de servicio</a> y la <a href="#">Política de privacidad</a> de Crabify.
             </label>
           </div>
 
@@ -1283,7 +1374,7 @@ nav {
             <div class="btn-spinner"></div>
           </button>
           <div class="form-footer-note" style="margin-top:14px">
-            ¿Nuevo en Lumière? <a href="#" onclick="switchTab('signup'); return false;">Crea tu cuenta gratis</a>
+            ¿Nuevo en Crabify? <a href="#" onclick="switchTab('signup'); return false;">Crea tu cuenta gratis</a>
           </div>
 
           <!-- Forgot password panel (inline) -->
@@ -1311,7 +1402,123 @@ nav {
   </div>
 
   <!-- ═══════════════════════════════════ -->
-  <!-- SCREEN 3: SUCCESS                  -->
+  <!-- SCREEN 3: PAYMENT                  -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="screen" id="screen-payment">
+    <div class="steps-progress" style="margin-bottom:32px">
+      <div class="step-pill done">
+        <span class="sp-num">✓</span>
+        <span>Plan elegido</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-pill done">
+        <span class="sp-num">✓</span>
+        <span>Cuenta creada</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-pill current">
+        <span class="sp-num">3</span>
+        <span>Pago</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-pill">
+        <span class="sp-num">4</span>
+        <span>¡Todo listo!</span>
+      </div>
+    </div>
+
+    <div class="plan-selection-header">
+      <a class="back-link" onclick="goToAuthFromPayment()" style="display:inline-flex">← Volver a mis datos</a>
+      <div class="step-indicator">
+        <span class="step-dot"></span>
+        Paso 3 de 3
+      </div>
+      <h1 class="ps-title">Completa tu <em>pago</em></h1>
+      <p class="ps-sub" id="payment-plan-summary">Plan Agency Professional · $697 / mes</p>
+    </div>
+
+    <div class="pm-list">
+      <!-- PayPal -->
+      <div class="pm-card" id="pm-paypal">
+        <div class="pm-card-head" onclick="togglePaymentMethod('paypal')">
+          <div class="pm-icon pm-icon-paypal">💳</div>
+          <div class="pm-info">
+            <div class="pm-name">PayPal</div>
+            <div class="pm-desc">Activación inmediata en cuanto se confirme el pago</div>
+          </div>
+          <span class="pm-chevron">▾</span>
+        </div>
+        <div class="pm-body">
+          <p class="pm-note">Serás redirigida a PayPal para completar el pago de forma segura. Tu cuenta se activa al instante.</p>
+          <div id="paypal-button-container"></div>
+          <button class="btn-select btn-sel-outline" id="btn-paypal-fallback" onclick="handlePaypalFallback()" style="display:none">Ya pagué con PayPal →</button>
+        </div>
+      </div>
+
+      <!-- Transferencia bancaria -->
+      <div class="pm-card" id="pm-transfer">
+        <div class="pm-card-head" onclick="togglePaymentMethod('transfer')">
+          <div class="pm-icon pm-icon-bank">🏦</div>
+          <div class="pm-info">
+            <div class="pm-name">Transferencia bancaria</div>
+            <div class="pm-desc">Acceso completo al verificar tu comprobante (hasta 24h)</div>
+          </div>
+          <span class="pm-chevron">▾</span>
+        </div>
+        <div class="pm-body">
+          <div class="pm-bank-details">
+            <div class="pm-detail-row"><span>Banco</span><strong>Banco Nacional de Costa Rica</strong></div>
+            <div class="pm-detail-row"><span>Cuenta IBAN</span><strong>CR00-0000-0000-0000-0000-00</strong></div>
+            <div class="pm-detail-row"><span>Titular</span><strong>Crabify SRL</strong></div>
+            <div class="pm-detail-row"><span>Cédula jurídica</span><strong>3-102-000000</strong></div>
+            <div class="pm-detail-row"><span>Monto a transferir</span><strong id="pm-amount-transfer">$697.00</strong></div>
+          </div>
+          <p class="pm-note">Después de transferir, ingresa el número de comprobante para que podamos verificarlo. Mientras se verifica, tu cuenta queda con acceso pendiente.</p>
+          <div class="form-group">
+            <label class="form-label">Número de comprobante / referencia</label>
+            <input type="text" class="form-input" id="inp-ref-transfer" placeholder="Ej. 0123456789">
+          </div>
+          <button class="btn-select btn-sel-outline" onclick="handlePaymentPending('Transferencia bancaria','inp-ref-transfer')">Ya realicé la transferencia →</button>
+        </div>
+      </div>
+
+      <!-- SINPE Móvil -->
+      <div class="pm-card" id="pm-sinpe">
+        <div class="pm-card-head" onclick="togglePaymentMethod('sinpe')">
+          <div class="pm-icon pm-icon-sinpe">📱</div>
+          <div class="pm-info">
+            <div class="pm-name">SINPE Móvil <span class="pm-tag">Costa Rica</span></div>
+            <div class="pm-desc">Acceso completo al verificar tu comprobante (hasta 24h)</div>
+          </div>
+          <span class="pm-chevron">▾</span>
+        </div>
+        <div class="pm-body">
+          <div class="pm-bank-details">
+            <div class="pm-detail-row"><span>Número SINPE</span><strong>8888-0000</strong></div>
+            <div class="pm-detail-row"><span>A nombre de</span><strong>Crabify SRL</strong></div>
+            <div class="pm-detail-row"><span>Monto a enviar</span><strong id="pm-amount-sinpe">$697.00</strong></div>
+          </div>
+          <p class="pm-note">Después de hacer el SINPE, ingresa el número de referencia del mensaje de confirmación. Mientras se verifica, tu cuenta queda con acceso pendiente.</p>
+          <div class="form-group">
+            <label class="form-label">Número de referencia SINPE</label>
+            <input type="text" class="form-input" id="inp-ref-sinpe" placeholder="Ej. 987654">
+          </div>
+          <button class="btn-select btn-sel-outline" onclick="handlePaymentPending('SINPE Móvil','inp-ref-sinpe')">Ya realicé el SINPE →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-status" id="sheet-status-payment"></div>
+
+    <div class="trust-row">
+      <div class="trust-item"><span class="trust-icon">🔒</span> Pago seguro</div>
+      <div class="trust-item"><span class="trust-icon">🛡</span> Datos cifrados</div>
+      <div class="trust-item"><span class="trust-icon">↩</span> Verificación manual en hasta 24h</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- SCREEN 4: SUCCESS                  -->
   <!-- ═══════════════════════════════════ -->
   <div class="screen" id="screen-success">
     <div class="steps-progress" style="margin-bottom:48px">
@@ -1325,6 +1532,11 @@ nav {
         <span>Cuenta creada</span>
       </div>
       <div class="step-connector"></div>
+      <div class="step-pill done">
+        <span class="sp-num">✓</span>
+        <span>Pago</span>
+      </div>
+      <div class="step-connector"></div>
       <div class="step-pill current">
         <span class="sp-num">✦</span>
         <span>¡Todo listo!</span>
@@ -1333,8 +1545,8 @@ nav {
 
     <div class="success-center">
       <div class="success-icon-wrap">✦</div>
-      <h1 class="success-title">Bienvenida a<br><em>Lumière AI</em></h1>
-      <p class="success-sub">Tu cuenta ha sido creada. Tu motor de inteligencia estratégica está listo para comenzar a generar valor.</p>
+      <h1 class="success-title">Bienvenida a<br><em>Crabify</em></h1>
+      <p class="success-sub" id="success-sub">Tu cuenta ha sido creada. Tu motor de inteligencia estratégica está listo para comenzar a generar valor.</p>
 
       <div class="success-card">
         <div class="success-row">
@@ -1342,8 +1554,12 @@ nav {
           <span class="sr-val" id="success-plan">Agency Professional</span>
         </div>
         <div class="success-row">
-          <span class="sr-label">Período de prueba</span>
-          <span class="sr-badge">14 días gratis</span>
+          <span class="sr-label">Método de pago</span>
+          <span class="sr-val" id="success-payment-method">—</span>
+        </div>
+        <div class="success-row">
+          <span class="sr-label">Estado del pago</span>
+          <span class="sr-badge" id="success-payment-badge">Activo</span>
         </div>
         <div class="success-row">
           <span class="sr-label">Cuenta</span>
@@ -1351,14 +1567,14 @@ nav {
         </div>
         <div class="success-row">
           <span class="sr-label">Próximo paso</span>
-          <span class="sr-val">Configurar tu primer agente IA</span>
+          <span class="sr-val" id="success-next-step">Configurar tu primer agente IA</span>
         </div>
       </div>
 
-      <a href="ai-training-engine.html" class="btn-dashboard">
+      <a href="ai-training-engine.html" class="btn-dashboard" id="success-dashboard-btn">
         Ir al Motor IA →
       </a>
-      <div class="success-note">Hemos enviado un correo de bienvenida con tus credenciales y guía de inicio.</div>
+      <div class="success-note" id="success-note">Hemos enviado un correo de bienvenida con tus credenciales y guía de inicio.</div>
     </div>
   </div>
 
@@ -1374,7 +1590,11 @@ nav {
 //      - Ejecutar como: Yo
 //      - Quién tiene acceso: Cualquier usuario
 // 4. Copia la URL de la app web y pégala abajo.
-const GAS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyammIwKlup0hhdVx9FGga-nCSRE_tWyZVGPexAdg92U8BWPsStQx_BX0XE-wWtGuBs/exec'; // ej: https://script.google.com/macros/s/XXXXXXXX/exec
+const GAS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzjmyw5OvKs_ppV2mocxLI_o7fi-T-ByzCbMi02vAxF_0bhs7rzUagbpz1VZqUxjfhnnQ/exec'; // ej: https://script.google.com/macros/s/XXXXXXXX/exec
+
+// PayPal — Client ID de tu app en https://developer.paypal.com (usa uno "Sandbox" para probar).
+// Sin configurar, el botón muestra una opción de "Ya pagué con PayPal" para simular el flujo.
+const PAYPAL_CLIENT_ID = 'AfRLmDY9oSYybfyi8OhKBkyvo-XqO0H6NQ_3zpvn0IsM7jsDCN0eAls92Ux01XlP2VOJ-wMwAEW-mAq5';
 
 // Envía datos al Google Sheet vía Apps Script.
 // Se usa Content-Type text/plain para evitar el preflight CORS que
@@ -1382,7 +1602,7 @@ const GAS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyammIwKlup0hhd
 function sendToSheet(payload, statusElId) {
   const statusEl = statusElId ? document.getElementById(statusElId) : null;
   if (!GAS_WEBHOOK_URL || GAS_WEBHOOK_URL.includes('PEGA_AQUI')) {
-    console.warn('[Lumière AI] Configura GAS_WEBHOOK_URL para guardar registros en Google Sheets.');
+    console.warn('[Crabify] Configura GAS_WEBHOOK_URL para guardar registros en Google Sheets.');
     return Promise.resolve({ ok: false, reason: 'not-configured' });
   }
   if (statusEl) { statusEl.textContent = 'Guardando tu registro…'; statusEl.classList.remove('err'); }
@@ -1397,7 +1617,7 @@ function sendToSheet(payload, statusElId) {
       return { ok: true, data };
     })
     .catch(err => {
-      console.error('[Lumière AI] Error enviando a Google Sheets:', err);
+      console.error('[Crabify] Error enviando a Google Sheets:', err);
       if (statusEl) {
         statusEl.textContent = 'No pudimos sincronizar tu registro, pero tu cuenta se creó igual.';
         statusEl.classList.add('err');
@@ -1410,8 +1630,13 @@ function sendToSheet(payload, statusElId) {
 let state = {
   plan: 'agency',
   billing: false,
-  email: ''
+  email: '',
+  payment: null // { method, status: 'Activo' | 'Pendiente de verificación', reference }
 };
+
+function getCurrentPrice() {
+  return prices[state.plan][state.billing ? 1 : 0];
+}
 
 const prices = {
   studio:  [297, 238],
@@ -1535,29 +1760,132 @@ function handleSignup() {
   if (!valid) return;
   state.email = email;
 
-  const i = state.billing ? 1 : 0;
   const payload = {
+    action: 'signup',
     nombre: document.getElementById('inp-fname').value.trim(),
     apellido: document.getElementById('inp-lname').value.trim(),
     agencia: document.getElementById('inp-agency').value.trim(),
     email: email,
     plan: planNames[state.plan],
     facturacion: state.billing ? 'Anual' : 'Mensual',
-    precioUsd: prices[state.plan][i],
-    origen: 'lumiere-auth.html'
+    precioUsd: getCurrentPrice(),
+    origen: 'crabify-auth.html'
   };
 
   const btn = document.getElementById('btn-signup');
   btn.classList.add('loading');
 
-  // Enviamos al Sheet y avanzamos a "éxito" sin bloquear al usuario
-  // por la latencia de Apps Script.
+  // Guardamos el registro en el Sheet (estado "Pendiente de pago") y avanzamos
+  // al paso de pago sin bloquear al usuario por la latencia de Apps Script.
   sendToSheet(payload, 'sheet-status-signup');
 
   setTimeout(() => {
     btn.classList.remove('loading');
-    goToSuccess();
+    goToPayment();
   }, 1800);
+}
+
+// ── PAYMENT SCREEN NAV ──
+function goToPayment() {
+  const price = getCurrentPrice();
+  const billing = state.billing ? 'año' : 'mes';
+  document.getElementById('payment-plan-summary').textContent =
+    `Plan ${planNames[state.plan]} · $${price.toLocaleString()} / ${billing}`;
+  document.getElementById('pm-amount-transfer').textContent = `$${price.toFixed(2)}`;
+  document.getElementById('pm-amount-sinpe').textContent = `$${price.toFixed(2)}`;
+  showScreen('screen-payment');
+  document.getElementById('sp2b').classList.remove('current'); document.getElementById('sp2b').classList.add('done');
+  document.getElementById('sp3b').classList.add('current');
+}
+
+function goToAuthFromPayment() {
+  showScreen('screen-auth');
+  document.getElementById('sp3b').classList.remove('current');
+  document.getElementById('sp2b').classList.remove('done'); document.getElementById('sp2b').classList.add('current');
+}
+
+// ── PAYMENT METHODS (accordion) ──
+function togglePaymentMethod(id) {
+  ['paypal', 'transfer', 'sinpe'].forEach(key => {
+    const card = document.getElementById('pm-' + key);
+    if (key === id) {
+      const willOpen = !card.classList.contains('open');
+      card.classList.toggle('open', willOpen);
+      if (willOpen && key === 'paypal') initPayPalButton();
+    } else {
+      card.classList.remove('open');
+    }
+  });
+}
+
+// ── PAYPAL ──
+function loadPayPalSdk(callback) {
+  if (window.paypal) { callback(); return; }
+  const script = document.createElement('script');
+  script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=USD`;
+  script.onload = callback;
+  script.onerror = () => console.error('[Crabify] No se pudo cargar el SDK de PayPal.');
+  document.body.appendChild(script);
+}
+
+function initPayPalButton() {
+  const container = document.getElementById('paypal-button-container');
+  const fallbackBtn = document.getElementById('btn-paypal-fallback');
+
+  if (!PAYPAL_CLIENT_ID || PAYPAL_CLIENT_ID.includes('PEGA_AQUI')) {
+    container.innerHTML = '<p class="pm-warning">Configura tu PAYPAL_CLIENT_ID para activar el botón real de PayPal. Mientras tanto, puedes simular el pago:</p>';
+    fallbackBtn.style.display = 'block';
+    return;
+  }
+  fallbackBtn.style.display = 'none';
+  if (container.dataset.rendered === '1') return; // evita re-renderizar el botón
+
+  loadPayPalSdk(() => {
+    paypal.Buttons({
+      style: { shape: 'pill', color: 'black', label: 'pay' },
+      createOrder: (data, actions) => actions.order.create({
+        purchase_units: [{ amount: { value: getCurrentPrice().toFixed(2) } }]
+      }),
+      onApprove: (data, actions) => actions.order.capture().then(details => {
+        handlePaymentSuccess('PayPal', details.id);
+      }),
+      onError: (err) => {
+        console.error('[Crabify] Error en PayPal:', err);
+        alert('Hubo un problema procesando el pago con PayPal. Intenta de nuevo.');
+      }
+    }).render('#paypal-button-container');
+    container.dataset.rendered = '1';
+  });
+}
+
+function handlePaypalFallback() {
+  handlePaymentSuccess('PayPal (simulado)', 'DEMO-' + Date.now());
+}
+
+// ── PAYMENT OUTCOMES ──
+function handlePaymentSuccess(method, reference) {
+  state.payment = { method, status: 'Activo', reference };
+  sendPaymentToSheet();
+  goToSuccess();
+}
+
+function handlePaymentPending(method, inputId) {
+  const ref = document.getElementById(inputId).value.trim();
+  if (!ref) { alert('Ingresa el número de comprobante o referencia antes de continuar.'); return; }
+  state.payment = { method, status: 'Pendiente de verificación', reference: ref };
+  sendPaymentToSheet();
+  goToSuccess();
+}
+
+function sendPaymentToSheet() {
+  const payload = {
+    action: 'payment',
+    email: state.email,
+    metodoPago: state.payment.method,
+    estado: state.payment.status,
+    referencia: state.payment.reference
+  };
+  sendToSheet(payload, 'sheet-status-payment');
 }
 
 // ── LOGIN ──
@@ -1603,6 +1931,32 @@ function goToSuccess() {
   const email = state.email || document.getElementById('inp-email-s').value || document.getElementById('inp-email-l').value || '—';
   document.getElementById('success-plan').textContent  = planNames[state.plan] || 'Agency Professional';
   document.getElementById('success-email').textContent = email;
+
+  const badge    = document.getElementById('success-payment-badge');
+  const methodEl = document.getElementById('success-payment-method');
+  const subEl    = document.getElementById('success-sub');
+  const noteEl   = document.getElementById('success-note');
+  const nextEl   = document.getElementById('success-next-step');
+  const dashBtn  = document.getElementById('success-dashboard-btn');
+
+  if (state.payment && state.payment.status === 'Pendiente de verificación') {
+    methodEl.textContent = state.payment.method;
+    badge.textContent = 'Pendiente de verificación';
+    badge.classList.add('pending');
+    subEl.textContent = 'Tu cuenta fue creada. Activaremos el acceso completo en cuanto verifiquemos tu pago (hasta 24h).';
+    nextEl.textContent = 'Esperar confirmación del pago';
+    noteEl.textContent = 'Te avisaremos por correo en cuanto verifiquemos tu comprobante y activemos tu cuenta.';
+    dashBtn.textContent = 'Explorar mientras se verifica →';
+  } else {
+    methodEl.textContent = state.payment ? state.payment.method : '—';
+    badge.textContent = 'Activo';
+    badge.classList.remove('pending');
+    subEl.textContent = 'Tu cuenta y tu pago quedaron confirmados. Tu motor de inteligencia estratégica está listo para comenzar a generar valor.';
+    nextEl.textContent = 'Configurar tu primer agente IA';
+    noteEl.textContent = 'Hemos enviado un correo de bienvenida con tus credenciales y guía de inicio.';
+    dashBtn.textContent = 'Ir al Motor IA →';
+  }
+
   showScreen('screen-success');
 }
 
