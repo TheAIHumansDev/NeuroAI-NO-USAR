@@ -955,6 +955,16 @@ nav {
 }
 .trust-icon { font-size: 13px; }
 
+/* Save-to-sheet status */
+.sheet-status {
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-align: center;
+  margin-top: 10px;
+  min-height: 14px;
+}
+.sheet-status.err { color: #C05050; }
+
 /* Responsive */
 @media (max-width: 900px) {
   nav { padding: 0 24px; }
@@ -1231,6 +1241,7 @@ nav {
             <span class="btn-text">Crear cuenta y comenzar prueba →</span>
             <div class="btn-spinner"></div>
           </button>
+          <div class="sheet-status" id="sheet-status-signup"></div>
           <div class="form-footer-note">
             ¿Ya tienes cuenta? <a href="#" onclick="switchTab('login'); return false;">Inicia sesión aquí</a>
           </div>
@@ -1354,6 +1365,47 @@ nav {
 </div><!-- /auth-wrapper -->
 
 <script>
+// ═══════════════════════════════════════════════════════
+// CONFIGURACIÓN — Google Apps Script (guarda registros en Sheets)
+// ═══════════════════════════════════════════════════════
+// 1. Crea un Google Sheet nuevo.
+// 2. Extensiones → Apps Script → pega el código "Code.gs" (te lo entrego aparte).
+// 3. Implementar → Nueva implementación → Aplicación web
+//      - Ejecutar como: Yo
+//      - Quién tiene acceso: Cualquier usuario
+// 4. Copia la URL de la app web y pégala abajo.
+const GAS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyammIwKlup0hhdVx9FGga-nCSRE_tWyZVGPexAdg92U8BWPsStQx_BX0XE-wWtGuBs/exec'; // ej: https://script.google.com/macros/s/XXXXXXXX/exec
+
+// Envía datos al Google Sheet vía Apps Script.
+// Se usa Content-Type text/plain para evitar el preflight CORS que
+// Apps Script Web Apps no maneja bien con application/json.
+function sendToSheet(payload, statusElId) {
+  const statusEl = statusElId ? document.getElementById(statusElId) : null;
+  if (!GAS_WEBHOOK_URL || GAS_WEBHOOK_URL.includes('PEGA_AQUI')) {
+    console.warn('[Lumière AI] Configura GAS_WEBHOOK_URL para guardar registros en Google Sheets.');
+    return Promise.resolve({ ok: false, reason: 'not-configured' });
+  }
+  if (statusEl) { statusEl.textContent = 'Guardando tu registro…'; statusEl.classList.remove('err'); }
+  return fetch(GAS_WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (statusEl) statusEl.textContent = data && data.status === 'ok' ? '✓ Registro guardado' : '';
+      return { ok: true, data };
+    })
+    .catch(err => {
+      console.error('[Lumière AI] Error enviando a Google Sheets:', err);
+      if (statusEl) {
+        statusEl.textContent = 'No pudimos sincronizar tu registro, pero tu cuenta se creó igual.';
+        statusEl.classList.add('err');
+      }
+      return { ok: false, error: err };
+    });
+}
+
 // ── STATE ──
 let state = {
   plan: 'agency',
@@ -1482,8 +1534,26 @@ function handleSignup() {
   }
   if (!valid) return;
   state.email = email;
+
+  const i = state.billing ? 1 : 0;
+  const payload = {
+    nombre: document.getElementById('inp-fname').value.trim(),
+    apellido: document.getElementById('inp-lname').value.trim(),
+    agencia: document.getElementById('inp-agency').value.trim(),
+    email: email,
+    plan: planNames[state.plan],
+    facturacion: state.billing ? 'Anual' : 'Mensual',
+    precioUsd: prices[state.plan][i],
+    origen: 'lumiere-auth.html'
+  };
+
   const btn = document.getElementById('btn-signup');
   btn.classList.add('loading');
+
+  // Enviamos al Sheet y avanzamos a "éxito" sin bloquear al usuario
+  // por la latencia de Apps Script.
+  sendToSheet(payload, 'sheet-status-signup');
+
   setTimeout(() => {
     btn.classList.remove('loading');
     goToSuccess();
